@@ -16,9 +16,10 @@ def genresult():
     g.guesses = 0
     if g.guesses >= 8:
         return False
-    player = request.args.get('player')
-    print("player was " + player)
-    g.guesses += 1
-    return {
-        "player": player,
-    }
+    else:
+        player = request.args.get('player')
+        print("player was " + player)
+        g.guesses += 1
+        return {
+            "player": player,
+        }
