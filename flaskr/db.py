@@ -4,7 +4,7 @@ from flask import current_app, g
 from flask.cli import with_appcontext
 
 
-def create_db():
+def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
@@ -16,7 +16,7 @@ def create_db():
 
 
 def close_db(e=None):
-    g.pop('db', None)
+    db = g.pop('db', None)
     
     if db is not None:
         db.close()

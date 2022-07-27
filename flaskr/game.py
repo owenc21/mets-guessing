@@ -13,13 +13,8 @@ def game():
 
 @bp.route('/genresult', methods=('GET', 'POST'))
 def genresult():
-    g.guesses = 0
-    if g.guesses >= 8:
-        return False
-    else:
-        player = request.args.get('player')
-        print("player was " + player)
-        g.guesses += 1
-        return {
-            "player": player,
-        }
+    player = request.args.get('player')
+    
+    return {
+        "player": player,
+    }

@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, g
 
 
 def create_app(test_config=None):
@@ -22,10 +22,16 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+
     #from . import db
     #db.init_app(app)
 
+    from . import gen_player
+    with app.app_context():
+        gen_player.set_player()
+
     from . import game
     app.register_blueprint(game.bp)
+
 
     return app
