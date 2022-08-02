@@ -1,6 +1,5 @@
 import os
-from flask import Flask
-import threading
+from flask import Flask, redirect, url_for, g
 
 
 def create_app(test_config=None):
@@ -17,12 +16,21 @@ def create_app(test_config=None):
         # load test config otherwise
         app.config.from_mapping(test_config)
 
+    #need to create app.instance_path for sql database
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
+
+    #from . import db
+    #db.init_app(app)
 
     from . import gen_player
+    from . import config
 
-    #starts a daemon thread that will update the current player every x seconds
     gen_player.set_player()
-    
+    print(config.act_player)
 
     from . import game
     app.register_blueprint(game.bp)
