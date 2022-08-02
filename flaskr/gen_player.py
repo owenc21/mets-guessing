@@ -26,7 +26,6 @@ def set_player(seconds):
 
         config.act_player = return_player
         print(config.act_player)
-        time.sleep(seconds)
 
 
 

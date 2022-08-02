@@ -21,8 +21,7 @@ def create_app(test_config=None):
     from . import gen_player
 
     #starts a daemon thread that will update the current player every x seconds
-    playerThread = threading.Thread(target=gen_player.set_player, args=(86400,), daemon=True)
-    playerThread.start()
+    gen_player.set_player()
     
 
     from . import game
