@@ -8,6 +8,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'stats.sqlite'),
     )
+    app.use_reloader = False
 
     if test_config is None:
         # override default values with config set in config.py
@@ -16,15 +17,8 @@ def create_app(test_config=None):
         # load test config otherwise
         app.config.from_mapping(test_config)
 
-    #need to create app.instance_path for sql database
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
 
-    #from . import db
-    #db.init_app(app)
 
     from . import gen_player
     from . import config
