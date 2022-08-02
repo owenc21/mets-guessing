@@ -1,22 +1,9 @@
 from flask import (
-    Blueprint, g, render_template, request, session
+    Blueprint, g, render_template, request
 )
 from . import gen_player
 
 bp = Blueprint('game', __name__, url_prefix='/')
-
-
-#check if user has an ID stored in session, if so load their stats
-@bp.before_app_request
-def load_user():
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = db.get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id)
-        ).fetchone()
 
 
 @bp.route('/', methods=('GET',))

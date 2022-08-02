@@ -1,5 +1,6 @@
 import os
-from flask import Flask, redirect, url_for, g
+from flask import Flask
+import threading
 
 
 def create_app(test_config=None):
@@ -18,13 +19,12 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
 
-
-
     from . import gen_player
     from . import config
 
-    gen_player.set_player()
-    print(config.act_player)
+    #create daemon thread to reset player every 24 hours
+    playerThread = threading.Thread(target=gen_player.set_player, args=(86400,), daemon=True)
+    playerThread.start()
 
     from . import game
     app.register_blueprint(game.bp)
