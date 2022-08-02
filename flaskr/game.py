@@ -2,7 +2,6 @@ from flask import (
     Blueprint, g, render_template, request, session
 )
 from . import gen_player
-from . import db
 
 bp = Blueprint('game', __name__, url_prefix='/')
 
@@ -67,13 +66,3 @@ def genresult():
             "correct": adjust_attrs[8]
         }
     }
-
-
-@bp.route('/set', methods=('GET', 'POST'))
-def setresult():
-    db = db.get_db()
-    if request.method == 'POST':
-
-        result = request.args.get('result')
-        if result == "w":
-            if g.user == None:

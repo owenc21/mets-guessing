@@ -1,9 +1,10 @@
 import csv
 import random
+import os
 from . import config
 
-PATH = r"C:\Users\owenc\Documents\Programming\repos\mets-guessing\data\metsplayers.csv"
-
+direc = os.path.dirname(__file__)
+PATH = os.path.join(direc, '..', 'data', 'metsplayers.csv')
 
 #generate random number to decide which player is chosen
 def gen_rand():
