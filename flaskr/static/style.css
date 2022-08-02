@@ -1,5 +1,22 @@
-body {
+html {
     box-sizing: border-box;
+    font-size: 28px;
+}
+
+h1{
+    font-size: 2.4rem;
+}
+
+#overview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#guessTextBox {
+    width: 100%;
+    height: 1rem;
+    margin-bottom: 25px;
 }
 
 #tableContainer {
@@ -7,6 +24,13 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    font-size: 1rem;
+    padding: 25px;
+    margin-bottom: 250px;
+}
+
+#guessTable {
+    border-collapse: collapse;
 }
 
 .tdCorrect {
@@ -17,7 +41,12 @@ body {
     background-color: #f0e816;
 }
 
-th, tr {
+th, td {
     border: 1px solid black;
     padding: 10px;
+}
+
+#info {
+    font-size: .75rem;
+    text-align: center;
 }

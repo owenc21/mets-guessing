@@ -13,9 +13,6 @@ function createRow(jsonData) {
     let guessHeight = jsonData.guess.height;
     let guessWeight = jsonData.guess.weight;
 
-    console.log(guessAge);
-    console.log(guessBat);
-
     let guessRow = resultTable.insertRow();
 
     let playerCell = guessRow.insertCell();
@@ -57,6 +54,11 @@ function createRow(jsonData) {
     weightCell.classList.add(jsonData.adjust.adj_weight);
     let weightText = document.createTextNode(guessWeight);
     weightCell.appendChild(weightText);
+
+    if (jsonData.adjust.correct === true) {
+        alert("You won in " + (guesses + 1) + " guess!");
+        guesses = 8;
+    }
 }
 
 
