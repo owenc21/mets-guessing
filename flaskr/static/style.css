@@ -1,10 +1,12 @@
 html {
     box-sizing: border-box;
     font-size: 28px;
+    zoom: .8;
 }
 
 h1{
     font-size: 2.4rem;
+    text-align: center;
 }
 
 #overview {
@@ -22,9 +24,8 @@ h1{
 #tableContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
     text-align: center;
-    font-size: 1rem;
+    font-size: .75rem;
     padding: 25px;
     margin-bottom: 250px;
 }
