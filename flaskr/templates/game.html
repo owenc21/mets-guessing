@@ -8,5 +8,22 @@ Mets Wardle TITLE TBD
 {% endblock %}
 
 {% block content %}
-<input name="guessPlayer" type="text" maxlength="50" id="guessTextBox"/>
+<div id="tableContainer">
+    <input name="guessPlayer" type="text" maxlength="50" id="guessTextBox"/>
+    <table id="guessTable">
+        <thead>
+            <th scope="col">Name</th>
+            <th scope="col">Birthplace</th>
+            <th scope="col">Position</th>
+            <th scope="col">Age</th>
+            <th scope="col">B</th>
+            <th scope="col">T</th>
+            <th scope="col">H</th>
+            <th scope="col">W</th>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
 {% endblock %}

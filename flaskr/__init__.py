@@ -27,8 +27,10 @@ def create_app(test_config=None):
     #db.init_app(app)
 
     from . import gen_player
-    with app.app_context():
-        gen_player.set_player()
+    from . import config
+
+    gen_player.set_player()
+    print(config.act_player)
 
     from . import game
     app.register_blueprint(game.bp)

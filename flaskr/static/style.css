@@ -1,3 +1,23 @@
 body {
-    background-color: bisque;
+    box-sizing: border-box;
+}
+
+#tableContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tdCorrect {
+    background-color: #1fbf3f;
+}
+
+.tdPartial {
+    background-color: #f0e816;
+}
+
+th, tr {
+    border: 1px solid black;
+    padding: 10px;
 }
