@@ -24,7 +24,7 @@ def set_player(seconds):
             return_player = next(reader)
 
 
-        config.act_player = ['Chris Bassitt','United States', 'SP', '33', 'R', 'R', '6\' 5"', '217', '']
+        config.act_player = return_player
         print(config.act_player)
         time.sleep(seconds)
 
