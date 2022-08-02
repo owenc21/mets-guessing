@@ -2,7 +2,6 @@ import csv
 import random
 import os
 from . import config
-import time
 
 direc = os.path.dirname(__file__)
 PATH = os.path.join(direc, '..', 'data', 'metsplayers.csv')
@@ -12,21 +11,18 @@ def gen_rand():
     return random.randint(1,44)
 
 #add random player to g with attribute 'player'
-def set_player(seconds):
-    while(True):
-        return_player = []
-        player_id = gen_rand()
+def set_player():
+    return_player = []
+    player_id = gen_rand()
 
-        with open(PATH, 'r') as infile:
-            reader = csv.reader(infile, delimiter=",")
-            for i in range(player_id):
-                next(reader)
-            return_player = next(reader)
+    with open(PATH, 'r') as infile:
+        reader = csv.reader(infile, delimiter=",")
+        for i in range(player_id):
+            next(reader)
+        return_player = next(reader)
 
 
-        config.act_player = return_player
-        print(config.act_player)
-
+    config.act_player = return_player
 
 
 def gen_return_response(guess):
