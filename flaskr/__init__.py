@@ -13,10 +13,20 @@ def create_app(test_config=None):
     else:
         app.config.from_mapping(test_config)
     
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+
     # Register db functions with app
     from . import db
     db.init_app(app)
 
     from . import user
+    app.register_blueprint(user.bp)
+
+    from . import game
+    app.register_blueprint(game.bp)
+    app.add_url_rule('/', endpoint='index')
 
     return app

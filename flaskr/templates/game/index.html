@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Test{% endblock %}</h1>
+  {% if g.user %}
+    <div> {{ g.user['username'] }} </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}
