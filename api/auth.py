@@ -2,8 +2,9 @@
 Module with authentication/authorization utilites
 """
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
 
-from utils.http_code import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from utils.http_code import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_403_FORBIDDEN
 from utils.auth_utils import generate_response, Token
 from db.db import get_db
     
@@ -49,8 +50,8 @@ def create_user(user_data):
         )
     
     # Insert user into database
-    db.execute("INSERT INTO user (username, password) VALUES (?,?)",
-                (username, generate_password_hash(password=password)))
+    db.execute("INSERT INTO user (username, password, games, wins, cur_winstreak, long_winstrak) VALUES (?,?,?,?,?,?)",
+                (username, generate_password_hash(password=password), 0, 0, 0, 0))
     db.commit()
     
     del user_data["password"]
@@ -62,9 +63,10 @@ def create_user(user_data):
     )
 
 
-def login(user_data):
+def login(user_data, token=None):
     """
     Function to log user in and generate JWT token
+    Checks if guest token exists already
 
     @param user_data: JSON object of credentials for user
     @return Tuple of response data (including token), HTTP status
@@ -93,9 +95,35 @@ def login(user_data):
             status=HTTP_400_BAD_REQUEST
         )
     
+
     # Create JWT token for user
-    token = Token.create_token(user["id"])
-    user_data["token"] = token
+    new_token = Token.create_token(user["id"])
+    user_data["token"] = new_token
+
+    existing_session = None
+    # Check if a token already exists for user
+    if token is not None:
+        decoded_token = Token.decode_token(token)
+        # Check if token 
+        if decoded_token["id"] == "GUEST":
+            existing_session = db.execute(
+                'SELECT * FROM session WHERE token = ?', (str(token))
+            ).fetchone()
+            # Check if an existing session exists
+            if existing_session is not None:
+                if existing_session["game_id"] == os.environ.get("GAME_ID"):
+                    db.execute(
+                        "INSERT INTO session (token, game_id, win) VALUES (?,?,?)",
+                        (new_token, os.environ.get("GAME_ID"), existing_session["win"])
+                    )
+                    db.commit()
+        else:
+            # Already logged in, return 403 status
+            return generate_response(
+                data=user_data,
+                message="Already logged in",
+                status=HTTP_403_FORBIDDEN
+            )
 
     return generate_response(
         data=user_data,

@@ -4,6 +4,15 @@ CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    games INTEGER,
-    wins INTEGER
+    games INTEGER NOT NULL,
+    wins INTEGER NOT NULL,
+    cur_winstreak INTEGER NOT NULL,
+    long_winstreak INTEGER NOT NULL
+)
+
+CREATE TABLE session (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    token TEXT UNIQUE NOT NULL,
+    game_id INTEGER NOT NULL,
+    win BOOLEAN NOT NULL
 )

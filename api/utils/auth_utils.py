@@ -13,7 +13,7 @@ Collection of utilites for authenticaiton/authorization
 
 class Token:
     @staticmethod
-    def create_token(user_id):
+    def create_token(user_id="GUEST"):
         """
         Creates a JWT token that is encoded with an expiration date
         of one week from time of creation along with user's ID (from

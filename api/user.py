@@ -35,9 +35,23 @@ class LogIn(Resource):
         return make_response(response, status)
     
 
+class LogInToken(Resource):
+    @staticmethod
+    def post(token) -> Response:
+        """
+        POST response method for login user WITH a TOKEN
+        
+        @return JSON object of respoinse (including token)
+        and HTTP status
+        """
+        input_data = request.get_json()
+        response, status = login(input_data, token)
+        return make_response(response, status)
+
+
 class Stats(Resource):
     @staticmethod
-    @token_required
+    @login_required
     def post(token) -> Response:
         """
         POST response for method for user stats
