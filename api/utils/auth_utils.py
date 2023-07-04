@@ -139,24 +139,3 @@ def login_required(f):
         return f(*args, **kwargs)
     
     return decorated
-
-
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        # Get token
-        token = kwargs['token']
-
-        # Verify token is valid
-        try:
-            Token.decode_token(token)
-        except Exception as e:
-            return generate_response(
-                message="Invalid Token",
-                data=None,
-                status=HTTP_401_UNAUTHORIZED
-            )
-        
-        return f(*args, **kwargs)
-    
-    return decorated

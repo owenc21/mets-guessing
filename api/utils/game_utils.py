@@ -7,8 +7,20 @@ def check_guess(guess):
     """
     Function to ensure a guessed player exits
     """
+    if guess in player.players.keys():
+        return True
+    else:
+        return False
 
-    return guess in player.players.keys()
+
+def correct_check(guess):
+    """
+    Function to check if guess is correct player
+    """
+    if guess == os.environ.get("PLAYER"):
+        return True
+    else:
+        return False
 
 
 def gen_guess_response(guess):

@@ -113,8 +113,9 @@ def login(user_data, token=None):
             if existing_session is not None:
                 if existing_session["game_id"] == os.environ.get("GAME_ID"):
                     db.execute(
-                        "INSERT INTO session (token, game_id, win) VALUES (?,?,?)",
-                        (new_token, os.environ.get("GAME_ID"), existing_session["win"])
+                        "INSERT INTO session (token, guesses, game_id, win) VALUES (?,?,?,?)",
+                        (new_token, existing_session["guesses"],
+                         os.environ.get("GAME_ID"), existing_session["win"])
                     )
                     db.commit()
         else:
