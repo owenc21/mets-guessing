@@ -23,20 +23,29 @@ def init_session(token, user_info):
     ).fetchone()
 
     if session is None:
+        print(os.environ.get("SECRET_KEY"))
         db.execute(
-            "INSERT INTO session (token, game_id, win) VALUES (?,?,?)",
-            (token, os.environ.get("GAME_ID"), 0)
+            "INSERT INTO session (token, guesses, game_id, win) VALUES (?,?,?,?)",
+            (token, 0, int(os.environ.get("GAME_ID")), 0)
         )
         db.commit()
     else:
-        if session["game_id"] == os.environ.get("GAME_ID") and session["win"] == 1:
+        if session["game_id"] == int(os.environ.get("GAME_ID")) and session["win"] == 1:
             user_info["session"] = session
             return generate_response(
                 data=user_info,
                 message="Already played this game",
                 status=HTTP_403_FORBIDDEN
             )
-        
+        elif session["game_id"] == int(os.environ.get("GAME_ID")) and session["guesses"] >= 8:
+            return generate_response(
+                data=user_info,
+                message="Already played this game",
+                status=HTTP_403_FORBIDDEN
+            )
+
+    user_info["token"] = token
+
     # At this point, session with token as been created
     return generate_response(
         data=user_info,
@@ -45,7 +54,7 @@ def init_session(token, user_info):
     )
 
 
-def game(token, user_info, guess):
+def game(token, user_info):
     """
     Function to handle the game functionality, user making
     a guess, validating it, and returning response
@@ -56,7 +65,7 @@ def game(token, user_info, guess):
     @returns            Tuple of (Response, Status)
     """
 
-    user_info["guess"] = guess
+    guess = user_info["guess"]
     db = get_db()
 
     # Get user session
@@ -72,16 +81,15 @@ def game(token, user_info, guess):
         )
     
     # Ensure less than 9 guesses made, update number of guesses
-    user_info["session"] = session
-    if session["guesses"] > 9:
+    # user_info["session"] = session
+    if session["guesses"] >= 8:
         return generate_response(
             data=user_info,
             message="8 guesses already made",
             status=HTTP_400_BAD_REQUEST
         )
     db.execute(
-        'UPDATE session SET guesses = ?',
-        ' WHERE token = ?',
+        'UPDATE session SET guesses = ? WHERE token = ?',
         (session["guesses"]+1, token)
     )
     db.commit()
@@ -99,7 +107,7 @@ def game(token, user_info, guess):
         logged_user = db.execute(
             'SELECT * FROM user WHERE id = ?',
             (user_id,)
-        ).fetchone
+        ).fetchone()
 
     # Ensure guess is valid
     if not check_guess(guess):
@@ -140,14 +148,15 @@ def game(token, user_info, guess):
                 (logged_user["games"]+1, 0,)
             )
             db.commit()
-        user_info["user"] = logged_user
+        user_info["user"] = logged_user["username"]
     
     user_info["response"] = response
-    user_info["session"] = session
+    print(user_info)
+    user_info["session_guesses"] = session["guesses"]
 
     return generate_response(
         data=user_info,
         message=f"Successfully made guess: {guess} : {win_status}",
-        stats=HTTP_200_OK
+        status=HTTP_200_OK
     )
 

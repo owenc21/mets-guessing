@@ -50,7 +50,7 @@ def create_user(user_data):
         )
     
     # Insert user into database
-    db.execute("INSERT INTO user (username, password, games, wins, cur_winstreak, long_winstrak) VALUES (?,?,?,?,?,?)",
+    db.execute("INSERT INTO user (username, password, games, wins, cur_winstreak, long_winstreak) VALUES (?,?,?,?,?,?)",
                 (username, generate_password_hash(password=password), 0, 0, 0, 0))
     db.commit()
     

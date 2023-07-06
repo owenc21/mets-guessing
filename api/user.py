@@ -5,7 +5,7 @@ from flask import Response, request, make_response
 from flask_restful import Resource
 
 from auth import create_user, login
-from utils.auth_utils import token_required, login_required, generate_response
+from utils.auth_utils import login_required, generate_response
 
 
 class Register(Resource):

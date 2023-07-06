@@ -17,7 +17,8 @@ def correct_check(guess):
     """
     Function to check if guess is correct player
     """
-    if guess == os.environ.get("PLAYER"):
+    real_player = str(os.environ.get("PLAYER")).replace("_", " ")
+    if guess == real_player:
         return True
     else:
         return False
@@ -42,7 +43,8 @@ def gen_guess_response(guess):
         raise Exception("Player not in player dictionary")
     
     # Get dictionary of correct player
-    player_true = player.players.get(str(os.environ.get("PLAYER")))
+    real_player = str(os.environ.get("PLAYER")).replace("_", " ")
+    player_true = player.players.get(real_player)
 
     response = {}
 

@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS session;
 
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -8,12 +9,12 @@ CREATE TABLE user (
     wins INTEGER NOT NULL,
     cur_winstreak INTEGER NOT NULL,
     long_winstreak INTEGER NOT NULL
-)
+);
 
 CREATE TABLE session (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    token TEXT NOT NULL,
+    token TEXT UNIQUE NOT NULL,
     guesses INTEGER NOT NULL,
     game_id INTEGER NOT NULL,
     win INTEGER NOT NULL
-)
+);

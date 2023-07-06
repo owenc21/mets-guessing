@@ -30,7 +30,7 @@ class Token:
 
         token = jwt.encode(
             payload,
-            os.environ.get("SECRET_KEY"),
+            str(os.environ.get("SECRET_KEY")),
             algorithm="HS256"
         )
         return token
@@ -47,7 +47,7 @@ class Token:
 
         return jwt.decode(
             str(token),
-            os.environ.get("SECRET_KEY"),
+            str(os.environ.get("SECRET_KEY")),
             algorithms="HS256",
             options={"require_exp": True}
         )
